@@ -165,10 +165,6 @@ export default function ExamKiosk() {
           if (document.fullscreenElement) {
             document.exitFullscreen().catch(() => {});
           }
-          // Optionally close the window/app
-          if (window.close) {
-            window.close();
-          }
           return false;
         }
       };
