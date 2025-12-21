@@ -137,7 +137,7 @@ export default function ExamKiosk() {
     return () => window.removeEventListener("keypress", handleKeyPress);
   }, [keySequence, isAdmin, isSubmitted]);
 
-  // Enter fullscreen after form submission
+  // Enter fullscreen after form submission and handle F11 to exit
   useEffect(() => {
     if (isSubmitted && !isAdmin) {
       const enterFullscreen = async () => {
@@ -156,6 +156,27 @@ export default function ExamKiosk() {
         }
       };
       enterFullscreen();
+
+      // Handle F11 to exit fullscreen
+      const handleF11Exit = (e: KeyboardEvent) => {
+        if (e.key === "F11") {
+          e.preventDefault();
+          // Exit fullscreen
+          if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+          }
+          // Optionally close the window/app
+          if (window.close) {
+            window.close();
+          }
+          return false;
+        }
+      };
+
+      window.addEventListener("keydown", handleF11Exit, true);
+      return () => {
+        window.removeEventListener("keydown", handleF11Exit, true);
+      };
     }
   }, [isSubmitted, isAdmin]);
 
@@ -432,46 +453,40 @@ export default function ExamKiosk() {
               <p className="text-slate-600">Your login has been recorded. You can now use the workstation.</p>
             </div>
 
-            {/* Exit Button - Opens background session */}
+            {/* End Session Button */}
             <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-300 rounded-lg p-6 space-y-4">
-              <p className="text-sm font-bold text-emerald-900">Click below to minimize and start working:</p>
+              <p className="text-sm font-bold text-emerald-900">Click below when you're done working:</p>
               <Button
-                onClick={() => setIsMinimized(true)}
+                onClick={handleEndSession}
+                disabled={endSessionMutation.isPending}
                 size="lg"
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg py-6"
-                data-testid="button-exit-session"
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-lg py-6"
+                data-testid="button-end-session-main"
               >
                 <LogOut className="w-6 h-6 mr-3" />
-                Exit to Workstation
+                {endSessionMutation.isPending ? "Ending Session..." : "End Session"}
               </Button>
             </div>
 
-            {/* Exit Instructions */}
+            {/* F11 Exit Instructions */}
             <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-5 space-y-4">
               <div>
-                <p className="text-sm font-bold text-blue-900 mb-3">HOW IT WORKS</p>
-                <p className="text-sm text-blue-800 mb-4">Your session continues running in the background:</p>
+                <p className="text-sm font-bold text-blue-900 mb-3">HOW TO EXIT</p>
+                <p className="text-sm text-blue-800 mb-4">To exit the application and go back to the desktop:</p>
               </div>
               <div className="space-y-3 text-left">
                 <div className="flex gap-3 items-start bg-white p-3 rounded border border-blue-200">
                   <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold text-sm">1</div>
                   <div>
-                    <p className="font-semibold text-blue-900">Click "Exit to Workstation"</p>
-                    <p className="text-xs text-blue-700 mt-1">Your session will continue in the background</p>
+                    <p className="font-semibold text-blue-900">Press the F11 key</p>
+                    <p className="text-xs text-blue-700 mt-1">This will exit the application and return to the desktop</p>
                   </div>
                 </div>
                 <div className="flex gap-3 items-start bg-white p-3 rounded border border-blue-200">
                   <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold text-sm">2</div>
                   <div>
-                    <p className="font-semibold text-blue-900">Use the workstation freely</p>
-                    <p className="text-xs text-blue-700 mt-1">A minimized button appears in the bottom right corner</p>
-                  </div>
-                </div>
-                <div className="flex gap-3 items-start bg-white p-3 rounded border border-blue-200">
-                  <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold text-sm">3</div>
-                  <div>
-                    <p className="font-semibold text-blue-900">Click the minimized button to end session</p>
-                    <p className="text-xs text-blue-700 mt-1">When you're done, click to officially end your session</p>
+                    <p className="font-semibold text-blue-900">Or click "End Session" above</p>
+                    <p className="text-xs text-blue-700 mt-1">This will officially end your lab session</p>
                   </div>
                 </div>
               </div>
@@ -486,7 +501,7 @@ export default function ExamKiosk() {
                     CRITICAL: MUST END SESSION BEFORE LEAVING
                   </p>
                   <p className="text-sm text-red-700">
-                    You MUST click "End Session" on the minimized button when finished. Failing to do so will result in serious consequences:
+                    Click the red "End Session" button above or press F11 to exit. Failing to do so will result in serious consequences:
                   </p>
                   <ul className="text-sm text-red-700 space-y-1 ml-4">
                     <li>⚠️ <span className="font-bold">ACCOUNT BAN</span> - Permanently banned from the lab</li>
@@ -498,7 +513,7 @@ export default function ExamKiosk() {
             </div>
 
             <p className="text-xs text-slate-600 text-center font-semibold bg-amber-50 p-3 rounded border border-amber-200">
-              Remember: Always click "End Session" on the minimized button before leaving the workstation!
+              Remember: Click "End Session" or press F11 before leaving the workstation!
             </p>
           </motion.div>
         </main>
