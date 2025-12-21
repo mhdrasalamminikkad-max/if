@@ -99,17 +99,17 @@ export default function AdminDashboard() {
 
   const filteredLabEntries = labEntries.filter((entry) => {
     const dateRange = getDateRange(logDateFilter, customStartDate, customEndDate);
-    return filterByDate(entry.timestamp?.toISOString(), dateRange);
+    return filterByDate(entry.timestamp as string, dateRange);
   });
 
   const filteredBannedStudents = bannedStudents.filter((student) => {
     const dateRange = getDateRange(bannedDateFilter, customStartDateBanned, customEndDateBanned);
-    return filterByDate(student.updatedAt?.toISOString(), dateRange);
+    return filterByDate(student.updatedAt as string, dateRange);
   });
 
   const filteredOverusedStudents = flaggedStudents.filter((student) => {
     const dateRange = getDateRange(overusedDateFilter, "", "");
-    return filterByDate(student.updatedAt?.toISOString(), dateRange);
+    return filterByDate(student.updatedAt as string, dateRange);
   });
 
   const handleLogout = () => {
