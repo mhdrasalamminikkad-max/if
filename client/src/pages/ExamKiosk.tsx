@@ -157,14 +157,11 @@ export default function ExamKiosk() {
       };
       enterFullscreen();
 
-      // Handle F11 to exit fullscreen
+      // Handle F11 to minimize/restore the session
       const handleF11Exit = (e: KeyboardEvent) => {
         if (e.key === "F11") {
           e.preventDefault();
-          // Exit fullscreen
-          if (document.fullscreenElement) {
-            document.exitFullscreen().catch(() => {});
-          }
+          setIsMinimized(!isMinimized);
           return false;
         }
       };
@@ -174,7 +171,7 @@ export default function ExamKiosk() {
         window.removeEventListener("keydown", handleF11Exit, true);
       };
     }
-  }, [isSubmitted, isAdmin]);
+  }, [isSubmitted, isAdmin, isMinimized]);
 
   // Fetch settings on mount
   const { data: timeSetting } = useQuery({
@@ -468,20 +465,20 @@ export default function ExamKiosk() {
             <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-5 space-y-4">
               <div>
                 <p className="text-sm font-bold text-blue-900 mb-3">HOW TO EXIT</p>
-                <p className="text-sm text-blue-800 mb-4">To exit the application and go back to the desktop:</p>
+                <p className="text-sm text-blue-800 mb-4">To minimize the interface and access your desktop:</p>
               </div>
               <div className="space-y-3 text-left">
                 <div className="flex gap-3 items-start bg-white p-3 rounded border border-blue-200">
                   <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold text-sm">1</div>
                   <div>
                     <p className="font-semibold text-blue-900">Press the F11 key</p>
-                    <p className="text-xs text-blue-700 mt-1">This will exit the application and return to the desktop</p>
+                    <p className="text-xs text-blue-700 mt-1">This will minimize the interface to a small card in the corner</p>
                   </div>
                 </div>
                 <div className="flex gap-3 items-start bg-white p-3 rounded border border-blue-200">
                   <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold text-sm">2</div>
                   <div>
-                    <p className="font-semibold text-blue-900">Or click "End Session" above</p>
+                    <p className="font-semibold text-blue-900">Click "End Session" on the card or here</p>
                     <p className="text-xs text-blue-700 mt-1">This will officially end your lab session</p>
                   </div>
                 </div>
