@@ -97,6 +97,19 @@ export default function AdminDashboard() {
     }
   };
 
+  // Format ISO timestamp to HH:MM time format
+  const formatTime = (isoString: string | null | undefined) => {
+    if (!isoString) return "-";
+    try {
+      const date = new Date(isoString);
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${hours}:${minutes}`;
+    } catch {
+      return "-";
+    }
+  };
+
   const filteredLabEntries = labEntries.filter((entry) => {
     const dateRange = getDateRange(logDateFilter, customStartDate, customEndDate);
     return filterByDate(entry.timestamp as string, dateRange);
@@ -834,7 +847,7 @@ export default function AdminDashboard() {
                             <TableCell>{entry.pcNumber}</TableCell>
                             <TableCell>{entry.time}</TableCell>
                             <TableCell>{entry.endTime || "-"}</TableCell>
-                            <TableCell>{entry.actualEndTime || "-"}</TableCell>
+                            <TableCell>{formatTime(entry.actualEndTime as string)}</TableCell>
                             <TableCell>{entry.purpose}</TableCell>
                             <TableCell>
                               {(entry.overtimeMinutes ?? 0) > 0 ? (
