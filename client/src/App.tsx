@@ -24,7 +24,7 @@ function Router() {
 function KeyboardShortcutListener() {
   const [, setLocation] = useLocation();
   const secretCodeRef = useRef("");
-  const SECRET_CODE = "786786";
+  const SECRET_CODE = "7867862025";
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -32,9 +32,9 @@ function KeyboardShortcutListener() {
       if (/^\d$/.test(event.key)) {
         secretCodeRef.current += event.key;
 
-        // Keep only the last 6 characters
-        if (secretCodeRef.current.length > 6) {
-          secretCodeRef.current = secretCodeRef.current.slice(-6);
+        // Keep only the last 10 characters
+        if (secretCodeRef.current.length > 10) {
+          secretCodeRef.current = secretCodeRef.current.slice(-10);
         }
 
         // Check if the sequence matches the secret code

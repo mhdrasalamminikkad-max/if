@@ -46,7 +46,7 @@ export default function ExamKiosk() {
   const [studentQuotaRemaining, setStudentQuotaRemaining] = useState(0);
   const [overtimeMinutes, setOvertimeMinutes] = useState(0);
   const [studentValidationError, setStudentValidationError] = useState<string>("");
-  const adminCode = "786786";
+  const adminCode = "7867862025";
 
   // Apply exit prevention only when NOT in submitted view
   useEffect(() => {

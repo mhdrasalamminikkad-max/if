@@ -6,7 +6,7 @@ import { useLocation } from "wouter";
 import { Lock, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 
-const ADMIN_PASSWORD = "786786";
+const ADMIN_PASSWORD = "7867862025";
 
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
