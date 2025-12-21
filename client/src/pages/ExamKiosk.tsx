@@ -52,12 +52,8 @@ export default function ExamKiosk() {
   useEffect(() => {
     if (isSubmitted) return;
 
-    // Block F11, ESC, Alt+F4, and other exit keys
+    // Block ESC, Alt+F4, and other exit keys (F11 is handled in submitted state)
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "F11") {
-        e.preventDefault();
-        return false;
-      }
       if (e.altKey && e.key === "F4") {
         e.preventDefault();
         return false;
@@ -137,41 +133,23 @@ export default function ExamKiosk() {
     return () => window.removeEventListener("keypress", handleKeyPress);
   }, [keySequence, isAdmin, isSubmitted]);
 
-  // Enter fullscreen after form submission and handle F11 to exit
+  // Handle F11 to minimize/restore during submitted state
   useEffect(() => {
     if (isSubmitted && !isAdmin) {
-      const enterFullscreen = async () => {
-        try {
-          if (document.documentElement.requestFullscreen) {
-            await document.documentElement.requestFullscreen();
-          } else if ((document as any).webkitRequestFullscreen) {
-            await (document as any).webkitRequestFullscreen();
-          } else if ((document as any).mozRequestFullScreen) {
-            await (document as any).mozRequestFullScreen();
-          } else if ((document as any).msRequestFullscreen) {
-            await (document as any).msRequestFullscreen();
-          }
-        } catch (err) {
-          console.log("Fullscreen request denied or unavailable");
-        }
-      };
-      enterFullscreen();
-
-      // Handle F11 to minimize/restore the session
-      const handleF11Exit = (e: KeyboardEvent) => {
+      const handleF11 = (e: KeyboardEvent) => {
         if (e.key === "F11") {
           e.preventDefault();
-          setIsMinimized(!isMinimized);
+          setIsMinimized(prev => !prev);
           return false;
         }
       };
 
-      window.addEventListener("keydown", handleF11Exit, true);
+      window.addEventListener("keydown", handleF11, false);
       return () => {
-        window.removeEventListener("keydown", handleF11Exit, true);
+        window.removeEventListener("keydown", handleF11, false);
       };
     }
-  }, [isSubmitted, isAdmin, isMinimized]);
+  }, [isSubmitted, isAdmin]);
 
   // Fetch settings on mount
   const { data: timeSetting } = useQuery({
