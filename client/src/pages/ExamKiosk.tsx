@@ -370,32 +370,6 @@ export default function ExamKiosk() {
     );
   }
 
-  // Minimized session view - student can come back to end session
-  if (isMinimized) {
-    return (
-      <div className="fixed bottom-4 right-4 z-50">
-        <Card className="w-80 shadow-xl border-emerald-300 border-2">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-emerald-900">Lab Session Active</CardTitle>
-            <CardDescription className="text-xs">Click to end your session</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button
-              onClick={handleEndSession}
-              disabled={endSessionMutation.isPending}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
-              size="sm"
-              data-testid="button-end-session-minimized"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              {endSessionMutation.isPending ? "Ending..." : "End Session"}
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100 flex flex-col">
@@ -490,6 +464,30 @@ export default function ExamKiosk() {
         </main>
 
         <Taskbar sessionActive={true} />
+
+        {/* Minimized session card - shown on top when F11 is pressed */}
+        {isMinimized && (
+          <div className="fixed bottom-4 right-4 z-50">
+            <Card className="w-80 shadow-xl border-emerald-300 border-2">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg text-emerald-900">Lab Session Active</CardTitle>
+                <CardDescription className="text-xs">Click to end your session</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button
+                  onClick={handleEndSession}
+                  disabled={endSessionMutation.isPending}
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
+                  size="sm"
+                  data-testid="button-end-session-minimized"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  {endSessionMutation.isPending ? "Ending..." : "End Session"}
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     );
   }
