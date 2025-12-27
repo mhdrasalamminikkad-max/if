@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Lab Kiosk</title>
+  <style>
+    /* BASIC RESET & STYLES (Tailwind-like) */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden; /* Prevent scrolling in kiosk */
+    }
+
+    /* HEADER */
+    header {
+      background-color: #0f172a;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      transition: background-color 0.5s;
+    }
+    header.urgent { background-color: #7f1d1d; }
+
+    .brand { font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem; color: #f87171; }
+    
+    .timer-container { display: flex; align-items: center; gap: 1rem; }
+    .timer-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
+    
+    .timer { font-family: 'Courier New', monospace; font-size: 1.5rem; font-weight: bold; background: #1e293b; padding: 0.5rem 1rem; border-radius: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    .timer.urgent { background-color: #dc2626; animation: pulse 1s infinite; box-shadow: 0 0 15px rgba(220,38,38,0.7); }
+
+    /* BUTTONS */
+    .icon-btn { background: none; border: none; color: #94a3b8; cursor: pointer; padding: 0.5rem; border-radius: 0.25rem; }
+    .icon-btn:hover { background-color: #334155; color: white; }
+
+    /* MAIN CONTAINER */
+    #appContainer { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; width: 100%; }
+
+    .card {
+      background: white;
+      width: 100%;
+      max-width: 700px;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border: 1px solid #e2e8f0;
+      transition: border-color 0.3s;
+    }
+    .card.urgent { border-color: #f87171; border-width: 2px; }
+
+    h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    p.desc { color: #64748b; margin-bottom: 2rem; }
+
+    /* FORM GRID */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .full-width { grid-column: span 2; }
+
+    /* FORM */
+    .form-group { margin-bottom: 0; }
+    label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #334155; }
+    input {
+      width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; outline: none; transition: border-color 0.2s;
+    }
+    input:focus { border-color: #2563eb; ring: 2px solid #93c5fd; }
+    input:read-only { background-color: #f1f5f9; color: #64748b; cursor: not-allowed; }
+
+    .checkbox-group { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem; background: #f1f5f9; border-radius: 0.5rem; margin-top: 1.5rem; }
+    .checkbox-group input { width: auto; margin-top: 0.25rem; }
+    .checkbox-group label { margin-bottom: 0; font-weight: 400; font-size: 0.9rem; }
+
+    button.primary-btn {
+      width: 100%; padding: 1rem; background-color: #1d4ed8; color: white; font-weight: 600; font-size: 1.125rem; border: none; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s; margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    button.primary-btn:hover { background-color: #1e40af; }
+    button.primary-btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
+    button.primary-btn.urgent { background-color: #dc2626; }
+    button.primary-btn.urgent:hover { background-color: #b91c1c; }
+
+    /* WARNING BOX */
+    .warning {
+      background-color: #fffbeb; border-left: 4px solid #d97706; color: #92400e; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.875rem; transition: all 0.3s;
+    }
+    .warning.urgent { background-color: #fef2f2; border-left-color: #dc2626; color: #991b1b; }
+
+    /* MODAL & OVERLAYS */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .modal-overlay.visible { opacity: 1; pointer-events: auto; }
+    
+    .modal-content { background: white; padding: 2rem; border-radius: 0.5rem; width: 400px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    .modal-actions { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; }
+    .btn-secondary { background: #e2e8f0; color: #0f172a; border: none; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer; }
+    .btn-primary { background: #0f172a; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer; }
+
+    /* ADMIN DASHBOARD */
+    #adminDashboard { display: none; width: 100%; height: 100vh; background: #f1f5f9; overflow-y: auto; }
+    .admin-header { background: white; padding: 1rem 2rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; }
+    .admin-content { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; display: grid; gap: 2rem; }
+    
+    .admin-card { background: white; border-radius: 0.5rem; padding: 1.5rem; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); }
+    .admin-card h3 { margin-bottom: 0.25rem; font-size: 1.125rem; }
+    .admin-card p { color: #64748b; font-size: 0.875rem; margin-bottom: 1.5rem; }
+
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.875rem; }
+    th { border-bottom: 1px solid #e2e8f0; padding: 0.75rem; font-weight: 600; color: #64748b; }
+    td { border-bottom: 1px solid #f1f5f9; padding: 0.75rem; color: #0f172a; }
+    tr:last-child td { border-bottom: none; }
+
+    /* FULLSCREEN OVERLAY */
+    #overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0f172a; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; display: none;
+    }
+    #overlay.visible { display: flex; }
+    #overlay.success-mode { background: #064e3b; }
+    #overlay.error-mode { background: #450a0a; }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      SYSTEM LOCKED
+    </div>
+    
+    <div class="timer-container">
+        <button id="adminBtn" class="icon-btn" title="Admin Settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </button>
+        <span class="timer-label" id="timerLabel">Auto-Shutdown In:</span>
+        <div id="timer" class="timer">
+            <span id="timerText">10:00</span>
+        </div>
+    </div>
+  </header>
+
+  <!-- USER VIEW -->
+  <main id="appContainer">
+    <div class="card" id="mainCard">
+      <h1>Lab Entry Log</h1>
+      <p class="desc">Workstation is locked. Submit entry to unlock.</p>
+
+      <div class="warning" id="warningBox">
+        <strong id="warningTitle">ACCESS CONTROL:</strong> 
+        <span id="warningText">Timer active. System will shutdown if log is not submitted.</span>
+      </div>
+
+      <form id="examForm">
+        <div class="grid">
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label for="registrationNumber">Registration Number</label>
+                <input type="text" id="registrationNumber" required placeholder="REG-123">
+            </div>
+            <div class="form-group">
+                <label for="pcNumber">PC Number</label>
+                <input type="text" id="pcNumber" required placeholder="PC-01">
+            </div>
+            <div class="form-group">
+                <label for="time">Time In</label>
+                <input type="time" id="time" required readonly>
+            </div>
+            <div class="form-group full-width">
+                <label for="purpose">Purpose</label>
+                <input type="text" id="purpose" required placeholder="Research / Exam / Assignment">
+            </div>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="declaration" required>
+          <label for="declaration">I confirm these details are correct.</label>
+        </div>
+
+        <button type="submit" id="submitBtn" class="primary-btn" disabled>
+            Submit Log & Unlock PC
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- ADMIN VIEW -->
+  <div id="adminDashboard">
+    <div class="admin-header">
+        <div style="font-weight:bold; font-size: 1.25rem;">Admin Dashboard</div>
+        <button id="closeAdminBtn" class="btn-secondary">Logout</button>
+    </div>
+    <div class="admin-content">
+        <!-- Settings -->
+        <div class="admin-card">
+            <h3>Configuration</h3>
+            <p>System settings and timers</p>
+            <div style="display:flex; gap:1rem; align-items:flex-end;">
+                <div>
+                    <label style="margin-bottom:0.5rem; display:block;">Time Allocation (Minutes)</label>
+                    <input type="number" id="timeSetting" value="10" style="width:150px;">
+                </div>
+                <button id="saveSettingsBtn" class="btn-primary">Save Changes</button>
+            </div>
+        </div>
+
+        <!-- Logs -->
+        <div class="admin-card">
+            <h3>Entry Logs</h3>
+            <p>Recent student access history</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Student</th>
+                        <th>Reg No</th>
+                        <th>Purpose</th>
+                        <th>PC</th>
+                    </tr>
+                </thead>
+                <tbody id="logsTableBody">
+                    <!-- JS Injected -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+
+  <!-- ADMIN LOGIN MODAL -->
+  <div id="adminModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 style="margin-bottom:1rem;">Admin Access</h2>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="adminPassword" placeholder="Enter password">
+        </div>
+        <div class="modal-actions">
+            <button id="cancelLoginBtn" class="btn-secondary">Cancel</button>
+            <button id="adminLoginBtn" class="btn-primary">Login</button>
+        </div>
+    </div>
+  </div>
+
+  <!-- STATUS OVERLAY -->
+  <div id="overlay">
+    <h2>Processing...</h2>
+    <p>Please wait.</p>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

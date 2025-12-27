@@ -1,0 +1,174 @@
+PS C:\Users\mhdra\OneDrive\Documents\if> cd electron-kiosk   
+PS C:\Users\mhdra\OneDrive\Documents\if\electron-kiosk>  npm install
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated lodash.get@4.4.2: This package is deprecated. Use the optional chaining (?.) operator instead.
+npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.      
+npm warn deprecated electron-packager@17.1.2: Please use @electron/packager moving forward. There is no API change, just a package name change
+
+added 171 packages, and audited 172 packages in 2m
+
+31 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+PS C:\Users\mhdra\OneDrive\Documents\if\electron-kiosk> 
+PS C:\Users\mhdra\OneDrive\Documents\if\electron-kiosk> 
+PS C:\Users\mhdra\OneDrive\Documents\if\electron-kiosk>  npm run package
+
+> school-exam-kiosk@1.0.0 package
+> electron-packager . SchoolExamKiosk --platform=win32 --arch=x64 --overwrite
+
+Packaging app for platform win32 x64 using electron v28.3.3
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+WARNING: Found 'electron' but not as a devDependency, pruning anyway
+Wrote new app to: C:\Users\mhdra\OneDrive\Documents\if\electron-kiosk\SchoolExamKiosk-win32-x64
+PS C:\Users\mhdra\OneDrive\Documents\if\electron-kiosk> 
