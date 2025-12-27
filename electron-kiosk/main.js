@@ -79,6 +79,19 @@ function createWindow() {
 
 app.whenReady().then(createWindow);
 
+// Prevent app from quitting unexpectedly
+app.on('window-all-closed', () => {
+  // Don't quit the app, restart the window instead
+  createWindow();
+});
+
+// Re-create window if it's closed
+app.on('activate', () => {
+  if (mainWindow === null) {
+    createWindow();
+  }
+});
+
 // --- IPC HANDLERS ---
 
 // 1. Submit Form
@@ -156,8 +169,4 @@ ipcMain.handle('update-settings', async (event, newSettings) => {
   } catch (error) {
     return { success: false, error: error.message };
   }
-});
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
 });
