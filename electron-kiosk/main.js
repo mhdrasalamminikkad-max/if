@@ -43,7 +43,7 @@ function createWindow() {
   });
 
   // Load the React web app from hosted backend
-  mainWindow.loadURL('https://if-8amo.onrender.com/');
+  mainWindow.loadURL('https://if-2dhc.onrender.com/');
   
   // Send config to renderer when ready
   mainWindow.webContents.on('did-finish-load', () => {
