@@ -211,7 +211,7 @@ cancelLoginBtn.addEventListener('click', () => {
 
 // Perform Login
 adminLoginBtn.addEventListener('click', async () => {
-  if (adminPasswordInput.value === '786786') { // Updated admin password
+  if (adminPasswordInput.value.trim() === '786786') { // Updated admin password
     adminModal.classList.remove('visible');
     appContainer.style.display = 'none';
     adminDashboard.style.display = 'block';
